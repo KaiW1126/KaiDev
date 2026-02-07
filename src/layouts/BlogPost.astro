@@ -1,25 +1,40 @@
 ---
 /**
  * BlogPost.astro - 記事詳細ページのレイアウト
- * 
+ *
  * 機能：
  * - タイトル、公開日、更新日
  * - タグ表示
  * - Zenn リンク（存在する場合）
  * - ヒーロー画像
  * - 記事本文
+ * - 目次（右サイドバー）
  */
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
-import LikeButton from '../components/LikeButton';
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
+import LikeButton from "../components/LikeButton";
+import TableOfContents from "../components/TableOfContents.astro";
 
-type Props = CollectionEntry<'blog'>['data'] & { articleId: string };
+type Props = CollectionEntry<"blog">["data"] & {
+	articleId: string;
+	headings?: { depth: number; slug: string; text: string }[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], zennUrl, articleId } = Astro.props;
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	tags = [],
+	zennUrl,
+	articleId,
+	headings = [],
+} = Astro.props;
 ---
 
 <html lang="ja">
@@ -30,64 +45,103 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], zennUrl,
 	<body>
 		<Header />
 		<main>
-			<article>
-				<!-- ヒーロー画像 -->
-				{heroImage && (
-					<div class="hero-image">
-						<Image width={1020} height={510} src={heroImage} alt="" />
-					</div>
-				)}
-				
-				<div class="prose">
-					<!-- 記事ヘッダー -->
-					<header class="article-header">
-						<!-- 公開日 -->
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{updatedDate && (
-								<span class="updated">
-									（更新: <FormattedDate date={updatedDate} />）
-								</span>
-							)}
-						</div>
-						
-						<!-- タイトル -->
-						<h1>{title}</h1>
-						
-						<!-- タグ -->
-						{tags.length > 0 && (
-							<div class="tags">
-								{tags.map((tag) => (
-									<span class="tag">{tag}</span>
-								))}
+			<div class="article-layout">
+				<!-- メインコンテンツ -->
+				<article>
+					<!-- ヒーロー画像 -->
+					{
+						heroImage && (
+							<div class="hero-image">
+								<Image
+									width={1020}
+									height={510}
+									src={heroImage}
+									alt=""
+								/>
 							</div>
-						)}
-						
-						<!-- Zenn リンク -->
-						{zennUrl && (
-							<a href={zennUrl} target="_blank" rel="noopener noreferrer" class="zenn-link">
-								<svg viewBox="0 0 88.3 88.3" width="16" height="16" aria-hidden="true">
-									<path fill="currentColor" d="M2.4 83.3h17c.9 0 1.7-.5 2.2-1.2L68.4 5.2c.6-1-.1-2.2-1.3-2.2H51.6c-.7 0-1.4.4-1.8 1L2.1 81.5c-.4.7.1 1.8 1.3 1.8h-1z"/>
-									<path fill="currentColor" d="M61.4 83.3H78c1.1 0 1.8-1.2 1.3-2.1L59.2 47c-.4-.7-1.5-.7-1.9 0L47.5 62.6c-.5.9-.5 2 0 2.9l12 17.1c.4.5 1.1.7 1.9.7z"/>
-								</svg>
-								Zenn で読む
-							</a>
-						)}
-					</header>
-					
-					<hr />
+						)
+					}
 
-					<!-- 記事本文 -->
-					<div class="content">
-						<slot />
-					</div>
+					<div class="prose">
+						<!-- 記事ヘッダー -->
+						<header class="article-header">
+							<!-- 公開日 -->
+							<div class="date">
+								<FormattedDate date={pubDate} />
+								{
+									updatedDate && (
+										<span class="updated">
+											（更新:{" "}
+											<FormattedDate date={updatedDate} />
+											）
+										</span>
+									)
+								}
+							</div>
 
-					<!-- いいねボタン -->
-					<div class="like-section">
-						<LikeButton client:load articleId={articleId} />
+							<!-- タイトル -->
+							<h1>{title}</h1>
+
+							<!-- タグ -->
+							{
+								tags.length > 0 && (
+									<div class="tags">
+										{tags.map((tag) => (
+											<span class="tag">{tag}</span>
+										))}
+									</div>
+								)
+							}
+
+							<!-- Zenn リンク -->
+							{
+								zennUrl && (
+									<a
+										href={zennUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="zenn-link"
+									>
+										<svg
+											viewBox="0 0 88.3 88.3"
+											width="16"
+											height="16"
+											aria-hidden="true"
+										>
+											<path
+												fill="currentColor"
+												d="M2.4 83.3h17c.9 0 1.7-.5 2.2-1.2L68.4 5.2c.6-1-.1-2.2-1.3-2.2H51.6c-.7 0-1.4.4-1.8 1L2.1 81.5c-.4.7.1 1.8 1.3 1.8h-1z"
+											/>
+											<path
+												fill="currentColor"
+												d="M61.4 83.3H78c1.1 0 1.8-1.2 1.3-2.1L59.2 47c-.4-.7-1.5-.7-1.9 0L47.5 62.6c-.5.9-.5 2 0 2.9l12 17.1c.4.5 1.1.7 1.9.7z"
+											/>
+										</svg>
+										Zenn で読む
+									</a>
+								)
+							}
+						</header>
+
+						<hr />
+
+						<!-- 記事本文 -->
+						<div class="content">
+							<slot />
+						</div>
+
+						<!-- いいねボタン -->
+						<div class="like-section">
+							<LikeButton client:load articleId={articleId} />
+						</div>
 					</div>
+				</article>
+
+				<!-- 目次（デスクトップのみ） -->
+				<div class="toc-wrapper">
+					<TableOfContents headings={headings} />
 				</div>
-			</article>
+			</div>
 		</main>
 		<Footer />
 	</body>
@@ -95,9 +149,22 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], zennUrl,
 
 <style>
 	main {
-		width: calc(100% - 2em);
-		max-width: 100%;
-		margin: 0;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+	.article-layout {
+		display: grid;
+		grid-template-columns: 1fr 220px;
+		gap: 2rem;
+		align-items: start;
+	}
+
+	.toc-wrapper {
+		position: sticky;
+		top: 80px;
 	}
 
 	.hero-image {
@@ -168,7 +235,9 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], zennUrl,
 		font-size: 0.9rem;
 		font-weight: 500;
 		text-decoration: none;
-		transition: background 0.2s ease, transform 0.2s ease;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease;
 	}
 
 	.zenn-link:hover {
@@ -196,6 +265,16 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], zennUrl,
 	}
 
 	/* レスポンシブ */
+	@media (max-width: 1024px) {
+		.article-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.toc-wrapper {
+			display: none;
+		}
+	}
+
 	@media (max-width: 720px) {
 		.article-header h1 {
 			font-size: 1.5rem;
