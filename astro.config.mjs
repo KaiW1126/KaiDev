@@ -2,6 +2,7 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -13,6 +14,7 @@ export default defineConfig({
   site: 'https://example.com',
   // hybrid モード: 基本は静的生成、特定ページのみ SSR
   output: 'server',
+  adapter: vercel(),
   integrations: [mdx(), sitemap(), react()],
 
   vite: {
