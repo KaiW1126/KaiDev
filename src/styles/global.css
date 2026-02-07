@@ -172,6 +172,19 @@ img {
 	border-radius: 8px;
 }
 
+/* ===== Table responsive ===== */
+.content table {
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.content iframe,
+.content video {
+	max-width: 100%;
+	height: auto;
+}
+
 /* ===== Code ===== */
 code {
 	padding: 2px 6px;
@@ -222,6 +235,16 @@ hr {
 
 	h2 {
 		font-size: 1.5em;
+	}
+
+	pre {
+		padding: 1em;
+		font-size: 0.85em;
+	}
+
+	blockquote {
+		padding: 0 0 0 12px;
+		font-size: 1em;
 	}
 }
 
