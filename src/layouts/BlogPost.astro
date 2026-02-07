@@ -125,15 +125,27 @@ const {
 
 						<!-- モバイル目次 -->
 						{
-							headings.filter((h) => h.depth === 2 || h.depth === 3).length > 0 && (
+							headings.filter(
+								(h) => h.depth === 2 || h.depth === 3,
+							).length > 0 && (
 								<details class="mobile-toc">
 									<summary>目次</summary>
 									<ul>
 										{headings
-											.filter((h) => h.depth === 2 || h.depth === 3)
+											.filter(
+												(h) =>
+													h.depth === 2 ||
+													h.depth === 3,
+											)
 											.map((heading) => (
-												<li class={`mobile-toc-item depth-${heading.depth}`}>
-													<a href={`#${heading.slug}`}>{heading.text}</a>
+												<li
+													class={`mobile-toc-item depth-${heading.depth}`}
+												>
+													<a
+														href={`#${heading.slug}`}
+													>
+														{heading.text}
+													</a>
 												</li>
 											))}
 									</ul>
@@ -199,9 +211,14 @@ const {
 
 	.prose {
 		width: 100%;
-		max-width: 720px;
+		max-width: min(720px, 100%);
 		margin: auto;
 		padding: 1em;
+	}
+
+	article {
+		max-width: 100%;
+		min-width: 0; /* Allow flex/grid children to shrink */
 	}
 
 	.article-header {
@@ -223,6 +240,8 @@ const {
 		margin: 0 0 1rem 0;
 		font-size: 2rem;
 		line-height: 1.3;
+		overflow-wrap: break-word;
+		word-break: break-word;
 	}
 
 	.tags {

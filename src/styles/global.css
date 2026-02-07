@@ -5,6 +5,13 @@
   Based on Bear Blog's default CSS with dark mode support
  */
 
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 /* ===== CSS Custom Properties ===== */
 :root {
 	/* Light Mode Colors */
@@ -102,6 +109,9 @@ h6 {
 	color: var(--color-text);
 	line-height: 1.2;
 	font-weight: 700;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	/* Fallback for older browsers */
 }
 
 h1 {
