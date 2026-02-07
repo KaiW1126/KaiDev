@@ -123,6 +123,24 @@ const {
 							}
 						</header>
 
+						<!-- モバイル目次 -->
+						{
+							headings.filter((h) => h.depth === 2 || h.depth === 3).length > 0 && (
+								<details class="mobile-toc">
+									<summary>目次</summary>
+									<ul>
+										{headings
+											.filter((h) => h.depth === 2 || h.depth === 3)
+											.map((heading) => (
+												<li class={`mobile-toc-item depth-${heading.depth}`}>
+													<a href={`#${heading.slug}`}>{heading.text}</a>
+												</li>
+											))}
+									</ul>
+								</details>
+							)
+						}
+
 						<hr />
 
 						<!-- 記事本文 -->
@@ -180,8 +198,8 @@ const {
 	}
 
 	.prose {
-		width: 720px;
-		max-width: calc(100% - 2em);
+		width: 100%;
+		max-width: 720px;
 		margin: auto;
 		padding: 1em;
 	}
@@ -254,6 +272,8 @@ const {
 
 	.content {
 		line-height: 1.8;
+		overflow-wrap: break-word;
+		word-break: break-word;
 	}
 
 	.like-section {
@@ -262,6 +282,64 @@ const {
 		margin-top: 3rem;
 		padding-top: 2rem;
 		border-top: 1px solid var(--color-border);
+	}
+
+	/* モバイル目次 */
+	.mobile-toc {
+		display: none;
+		background: var(--color-bg-secondary);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		padding: 0;
+		margin-bottom: 1rem;
+	}
+
+	.mobile-toc summary {
+		padding: 0.75rem 1rem;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.mobile-toc summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.mobile-toc summary::before {
+		content: "▶ ";
+		font-size: 0.7rem;
+		transition: transform 0.2s ease;
+		display: inline-block;
+	}
+
+	.mobile-toc[open] summary::before {
+		transform: rotate(90deg);
+	}
+
+	.mobile-toc ul {
+		list-style: none;
+		margin: 0;
+		padding: 0 1rem 0.75rem;
+	}
+
+	.mobile-toc-item a {
+		display: block;
+		padding: 0.3rem 0;
+		font-size: 0.85rem;
+		color: var(--color-text-muted);
+		text-decoration: none;
+		line-height: 1.4;
+	}
+
+	.mobile-toc-item a:hover {
+		color: var(--color-accent);
+	}
+
+	.mobile-toc-item.depth-3 a {
+		padding-left: 1rem;
+		font-size: 0.8rem;
 	}
 
 	/* レスポンシブ */
@@ -273,11 +351,63 @@ const {
 		.toc-wrapper {
 			display: none;
 		}
+
+		.mobile-toc {
+			display: block;
+		}
 	}
 
 	@media (max-width: 720px) {
+		main {
+			padding: 0 0.5rem;
+		}
+
+		.prose {
+			padding: 0.5em;
+		}
+
+		.hero-image {
+			margin-bottom: 1rem;
+		}
+
+		.hero-image img {
+			border-radius: 8px;
+		}
+
+		.article-header {
+			margin-bottom: 1.5rem;
+		}
+
 		.article-header h1 {
-			font-size: 1.5rem;
+			font-size: 1.4rem;
+			line-height: 1.4;
+		}
+
+		.date {
+			font-size: 0.8rem;
+		}
+
+		.tags {
+			gap: 0.4rem;
+		}
+
+		.tag {
+			font-size: 0.75rem;
+			padding: 0.2rem 0.6rem;
+		}
+
+		.zenn-link {
+			font-size: 0.8rem;
+			padding: 0.4rem 0.8rem;
+		}
+
+		hr {
+			margin: 1.5rem 0;
+		}
+
+		.like-section {
+			margin-top: 2rem;
+			padding-top: 1.5rem;
 		}
 	}
 </style>
