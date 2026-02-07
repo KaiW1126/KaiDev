@@ -6,10 +6,14 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
-  integrations: [mdx(), sitemap()],
+  // hybrid モード: 基本は静的生成、特定ページのみ SSR
+  output: 'server',
+  integrations: [mdx(), sitemap(), react()],
 
   vite: {
     plugins: [tailwindcss()],
