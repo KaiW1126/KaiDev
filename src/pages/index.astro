@@ -1,21 +1,21 @@
 ---
 /**
  * ホームページ（index.astro）
- * 
+ *
  * 構成：
  * 1. Hero セクション：自己紹介
  * 2. 記事一覧セクション：最新記事を表示
  */
 export const prerender = true;
-import { getCollection } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import ArticleCard from '../components/ArticleCard.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 // 記事を取得して新着順にソート
-const posts = (await getCollection('blog')).sort(
+const posts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
@@ -30,13 +30,13 @@ const recentPosts = posts.slice(0, 5);
 	</head>
 	<body>
 		<Header />
-		
+
 		<main>
 			<!-- Hero セクション -->
 			<section class="hero">
 				<div class="hero-content">
 					<h1 class="hero-title">
-						Hi, I'm <span class="accent">Kai</span> 
+						Hi, I'm <span class="accent">Kai</span>
 					</h1>
 					<ul class="hero-list">
 						<li>B2 情報理工</li>
@@ -61,17 +61,19 @@ const recentPosts = posts.slice(0, 5);
 					<h2>Latest Posts</h2>
 					<a href="/blog" class="view-all">すべて見る →</a>
 				</div>
-				
+
 				<div class="posts-grid">
-					{recentPosts.map((post) => (
-						<ArticleCard
-							title={post.data.title}
-							description={post.data.description}
-							pubDate={post.data.pubDate}
-							href={`/blog/${post.id}/`}
-							tags={post.data.tags}
-						/>
-					))}
+					{
+						recentPosts.map((post) => (
+							<ArticleCard
+								title={post.data.title}
+								description={post.data.description}
+								pubDate={post.data.pubDate}
+								href={`/blog/${post.id}/`}
+								tags={post.data.tags}
+							/>
+						))
+					}
 				</div>
 			</section>
 		</main>
@@ -82,9 +84,12 @@ const recentPosts = posts.slice(0, 5);
 
 <style>
 	main {
+		width: 100%;
 		max-width: 960px;
 		margin: 0 auto;
 		padding: 2rem 1.5rem;
+		box-sizing: border-box;
+		overflow-x: hidden;
 	}
 
 	/* Hero Section */
@@ -210,20 +215,47 @@ const recentPosts = posts.slice(0, 5);
 	}
 
 	@media (max-width: 640px) {
+		main {
+			padding: 1rem;
+		}
+
 		.hero {
 			padding: 2rem 0;
 		}
 
+		.hero-content {
+			text-align: center;
+		}
+
 		.hero-title {
-			font-size: 2rem;
+			font-size: 1.75rem;
 		}
 
-		.hero-description {
-			font-size: 1rem;
+		.hero-list {
+			display: block;
+			text-align: center;
+			padding: 0;
 		}
 
-		.hero-description br {
+		.hero-list li {
+			font-size: 0.95rem;
+			padding-left: 0;
+			text-align: center;
+		}
+
+		.hero-list li::before {
 			display: none;
+		}
+
+		.hero-links {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.btn {
+			width: 100%;
+			max-width: 200px;
+			justify-content: center;
 		}
 	}
 </style>
