@@ -20,6 +20,16 @@ const { title, description, image = FallbackImage } = Astro.props;
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- Dark mode initialization (must be inline to prevent flash) -->
+<script is:inline>
+  const theme = localStorage.getItem('theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
 <link rel="sitemap" href="/sitemap-index.xml" />
