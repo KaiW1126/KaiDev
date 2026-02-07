@@ -18,7 +18,10 @@ import { SITE_TITLE } from "../consts";
 
 <html lang="ja">
 	<head>
-		<BaseHead title={`About Me | ${SITE_TITLE}`} description="Kaiのプロフィールページです。" />
+		<BaseHead
+			title={`About Me | ${SITE_TITLE}`}
+			description="Kaiのプロフィールページです。"
+		/>
 	</head>
 	<body>
 		<Header />
@@ -27,7 +30,7 @@ import { SITE_TITLE } from "../consts";
 			<section class="profile">
 				<h1>About Me</h1>
 				<p class="intro">
-					こんにちは、<strong>Kai</strong> です。情報理工学部の B2 で、エンジニアインターンをしながら日々開発を学んでいます。
+					こんにちは、<strong>Kai</strong> です。情報理工学部の2年生で、エンジニアインターンをしながら日々開発を学んでいます。
 					将来は幅広い技術力を持つエンジニアになることを目標にしています。
 				</p>
 			</section>
@@ -39,14 +42,14 @@ import { SITE_TITLE } from "../consts";
 						<h3>Languages</h3>
 						<ul>
 							<li>TypeScript / JavaScript</li>
-							<li>Python</li>
-							<li>ここに追加</li>
+							<li>Ruby</li>
 						</ul>
 					</div>
 					<div class="skill-category">
 						<h3>Frontend</h3>
 						<ul>
-							<li>React</li>
+							<li>React/React Native</li>
+							<li>Next.js</li>
 							<li>Astro</li>
 							<li>Tailwind CSS</li>
 						</ul>
@@ -54,9 +57,9 @@ import { SITE_TITLE } from "../consts";
 					<div class="skill-category">
 						<h3>Backend / Infra</h3>
 						<ul>
-							<li>Node.js</li>
+							<li>Ruby on Rails</li>
 							<li>Supabase</li>
-							<li>ここに追加</li>
+							<li>AWS</li>
 						</ul>
 					</div>
 					<div class="skill-category">
@@ -64,7 +67,8 @@ import { SITE_TITLE } from "../consts";
 						<ul>
 							<li>Git / GitHub</li>
 							<li>VS Code</li>
-							<li>ここに追加</li>
+							<li>Docker</li>
+							<li>Claude Code</li>
 						</ul>
 					</div>
 				</div>
@@ -74,24 +78,28 @@ import { SITE_TITLE } from "../consts";
 				<h2>Experience</h2>
 				<div class="timeline">
 					<div class="timeline-item">
-						<span class="timeline-date">2024 ~</span>
-						<div class="timeline-content">
-							<h3>エンジニアインターン @ 会社名</h3>
-							<p>ここにインターンでやっていることの説明を書く。例：Webアプリケーションの開発、コードレビュー、テスト自動化など。</p>
-						</div>
-					</div>
-					<div class="timeline-item">
-						<span class="timeline-date">2023 ~</span>
+						<span class="timeline-date">2024年4月 ~</span>
 						<div class="timeline-content">
 							<h3>◯◯大学 情報理工学部</h3>
-							<p>ここに大学で学んでいることや取り組んでいることを書く。</p>
+							<p>
+								ここに大学で学んでいることや取り組んでいることを書く。
+							</p>
 						</div>
 					</div>
 					<div class="timeline-item">
-						<span class="timeline-date">2023</span>
+						<span class="timeline-date">2025年 ~</span>
 						<div class="timeline-content">
 							<h3>個人開発 / その他の活動</h3>
-							<p>ここに個人プロジェクトやハッカソン参加経験などを書く。</p>
+						</div>
+					</div>
+					<div class="timeline-item">
+						<span class="timeline-date">2025年3月 ~</span>
+						<div class="timeline-content">
+							<h3>エンジニアインターン</h3>
+							<p>
+								toCのアプリのweb,
+								ネイティブアプリ両方でフルスタックで開発中
+							</p>
 						</div>
 					</div>
 				</div>
@@ -101,7 +109,7 @@ import { SITE_TITLE } from "../consts";
 				<h2>About This Blog</h2>
 				<p>
 					このブログでは、日々の学習で得た知見や開発の記録を発信しています。
-					主に Web 開発に関するトピックを扱っていますが、興味のあるテーマがあれば幅広く書いていく予定です。
+					開発に関するトピックを扱っていますが、興味のあるテーマがあれば幅広く書いていく予定です。
 				</p>
 				<p>
 					アウトプットを通じて自分の理解を深めることと、同じ課題に取り組む人の助けになることを目指しています。
@@ -111,21 +119,62 @@ import { SITE_TITLE } from "../consts";
 			<section class="links">
 				<h2>Links</h2>
 				<div class="link-list">
-					<a href="https://github.com/KaiW1126" target="_blank" rel="noopener noreferrer" class="link-card">
+					<a
+						href="https://github.com/KaiW1126"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="link-card"
+					>
 						<span class="link-icon">
-							<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+							<svg
+								viewBox="0 0 24 24"
+								width="24"
+								height="24"
+								fill="currentColor"
+								><path
+									d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+								></path></svg
+							>
 						</span>
 						<span>GitHub</span>
 					</a>
-					<a href="https://zenn.dev/kai_skrj" target="_blank" rel="noopener noreferrer" class="link-card">
+					<a
+						href="https://zenn.dev/kai_skrj"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="link-card"
+					>
 						<span class="link-icon">
-							<svg viewBox="0 0 88.3 88.3" width="24" height="24" fill="currentColor"><path d="M2.4 83.3h17c.9 0 1.7-.5 2.2-1.2L68.4 5.2c.6-1-.1-2.2-1.3-2.2H51.6c-.7 0-1.4.4-1.8 1L2.1 81.5c-.4.7.1 1.8 1.3 1.8h-1z"/><path d="M61.4 83.3H78c1.1 0 1.8-1.2 1.3-2.1L59.2 47c-.4-.7-1.5-.7-1.9 0L47.5 62.6c-.5.9-.5 2 0 2.9l12 17.1c.4.5 1.1.7 1.9.7z"/></svg>
+							<svg
+								viewBox="0 0 88.3 88.3"
+								width="24"
+								height="24"
+								fill="currentColor"
+								><path
+									d="M2.4 83.3h17c.9 0 1.7-.5 2.2-1.2L68.4 5.2c.6-1-.1-2.2-1.3-2.2H51.6c-.7 0-1.4.4-1.8 1L2.1 81.5c-.4.7.1 1.8 1.3 1.8h-1z"
+								></path><path
+									d="M61.4 83.3H78c1.1 0 1.8-1.2 1.3-2.1L59.2 47c-.4-.7-1.5-.7-1.9 0L47.5 62.6c-.5.9-.5 2 0 2.9l12 17.1c.4.5 1.1.7 1.9.7z"
+								></path></svg
+							>
 						</span>
 						<span>Zenn</span>
 					</a>
-					<a href="https://twitter.com/YOUR_TWITTER_HANDLE" target="_blank" rel="noopener noreferrer" class="link-card">
+					<a
+						href="https://x.com/C1bjm32GV110480"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="link-card"
+					>
 						<span class="link-icon">
-							<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+							<svg
+								viewBox="0 0 24 24"
+								width="24"
+								height="24"
+								fill="currentColor"
+								><path
+									d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+								></path></svg
+							>
 						</span>
 						<span>X (Twitter)</span>
 					</a>
