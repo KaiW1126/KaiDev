@@ -7,16 +7,16 @@
  * 2. 記事一覧セクション：最新記事を表示
  */
 export const prerender = true;
-import { getCollection } from "astro:content";
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import ArticleCard from "../components/ArticleCard.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 // 記事を取得して新着順にソート
-const posts = (await getCollection("blog")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
 // 最新5件を表示
@@ -45,12 +45,8 @@ const recentPosts = posts.slice(0, 5);
 						<li>学んだことをこのブログで発信しています</li>
 					</ul>
 					<div class="hero-links">
-						<a href="/blog" class="btn btn-primary">
-							記事を読む →
-						</a>
-						<a href="/about" class="btn btn-secondary">
-							About Me
-						</a>
+						<a href="/blog" class="btn btn-primary"> 記事を読む → </a>
+						<a href="/about" class="btn btn-secondary"> About Me </a>
 					</div>
 				</div>
 			</section>
@@ -126,7 +122,7 @@ const recentPosts = posts.slice(0, 5);
 	}
 
 	.hero-list li::before {
-		content: "•";
+		content: '•';
 		position: absolute;
 		left: 0;
 		color: var(--color-accent);

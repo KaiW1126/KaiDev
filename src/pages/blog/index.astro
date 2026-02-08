@@ -6,25 +6,22 @@
  * ArticleCard コンポーネントを使用
  */
 export const prerender = true;
-import { getCollection } from "astro:content";
-import BaseHead from "../../components/BaseHead.astro";
-import Footer from "../../components/Footer.astro";
-import Header from "../../components/Header.astro";
-import ArticleCard from "../../components/ArticleCard.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 
-const posts = (await getCollection("blog")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
 <!doctype html>
 <html lang="ja">
 	<head>
-		<BaseHead
-			title={`Blog | ${SITE_TITLE}`}
-			description={SITE_DESCRIPTION}
-		/>
+		<BaseHead title={`Blog | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 	</head>
 
 	<body>

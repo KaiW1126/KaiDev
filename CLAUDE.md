@@ -24,14 +24,14 @@ src/
 
 ## 技術スタック
 
-| 技術 | バージョン | 用途 |
-|------|-----------|------|
-| Astro | v5 | フレームワーク |
-| React | v19 | インタラクティブコンポーネント |
-| TypeScript | strict | 型安全 |
-| Tailwind CSS | v4 | スタイリング |
-| Supabase | - | データベース（いいね機能） |
-| Vercel | - | ホスティング |
+| 技術         | バージョン | 用途                           |
+| ------------ | ---------- | ------------------------------ |
+| Astro        | v5         | フレームワーク                 |
+| React        | v19        | インタラクティブコンポーネント |
+| TypeScript   | strict     | 型安全                         |
+| Tailwind CSS | v4         | スタイリング                   |
+| Supabase     | -          | データベース（いいね機能）     |
+| Vercel       | -          | ホスティング                   |
 
 ---
 
@@ -62,7 +62,8 @@ src/
 - **サーバー状態**：Supabase（いいね数など）
 
 ### 5. ブランチ管理
- 基本新規機能、修正、新規記事はブランチを分けて作成して、PRを作成して、レビューを待って、マージする。
+
+基本新規機能、修正、新規記事はブランチを分けて作成して、PRを作成して、レビューを待って、マージする。
 
 ---
 
@@ -73,7 +74,7 @@ src/
 ```typescript
 // Good: 明示的な型定義
 interface Props {
-  articleId: string;
+	articleId: string;
 }
 
 // Bad: any の使用
@@ -85,11 +86,11 @@ const data: any = {};
 ```tsx
 // Good: 関数コンポーネント + 型定義
 export default function LikeButton({ articleId }: Props) {
-  // ...
+	// ...
 }
 
 // Bad: クラスコンポーネント
-class LikeButton extends React.Component { }
+class LikeButton extends React.Component {}
 ```
 
 ### Astro コンポーネント
@@ -98,7 +99,7 @@ class LikeButton extends React.Component { }
 ---
 // Good: フロントマターでロジック
 interface Props {
-  title: string;
+	title: string;
 }
 const { title } = Astro.props;
 ---
@@ -111,12 +112,12 @@ const { title } = Astro.props;
 ```css
 /* Good: CSS変数の使用 */
 .button {
-  background: var(--color-accent);
+	background: var(--color-accent);
 }
 
 /* Bad: ハードコードされた色 */
 .button {
-  background: #0070f3;
+	background: #0070f3;
 }
 ```
 
@@ -131,10 +132,10 @@ const { title } = Astro.props;
 
 ```yaml
 ---
-title: "記事タイトル"
-description: "説明"
-pubDate: "Feb 08 2026"
-tags: ["Astro", "React"]
+title: '記事タイトル'
+description: '説明'
+pubDate: 'Feb 08 2026'
+tags: ['Astro', 'React']
 ---
 ```
 
