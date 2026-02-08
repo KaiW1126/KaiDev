@@ -14,7 +14,9 @@ export default defineConfig({
 	site: 'https://example.com',
 	// hybrid モード: 基本は静的生成、特定ページのみ SSR
 	output: 'server',
-	adapter: vercel(),
+	adapter: vercel({
+		webAnalytics: { enabled: true },
+	}),
 	integrations: [mdx(), sitemap(), react()],
 
 	vite: {
