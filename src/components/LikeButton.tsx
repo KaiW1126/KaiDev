@@ -1,6 +1,6 @@
 /**
  * LikeButton - いいねボタンコンポーネント（React Island）
- * 
+ *
  * 機能：
  * - いいね数を表示
  * - クリックでいいねを追加
@@ -10,81 +10,79 @@
 import { useState, useEffect } from 'react';
 
 interface LikeButtonProps {
-  articleId: string;
+	articleId: string;
 }
 
 export default function LikeButton({ articleId }: LikeButtonProps) {
-  const [likeCount, setLikeCount] = useState<number>(0);
-  const [hasLiked, setHasLiked] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+	const [likeCount, setLikeCount] = useState<number>(0);
+	const [hasLiked, setHasLiked] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
-  // localStorage のキー
-  const storageKey = `liked_${articleId}`;
+	// localStorage のキー
+	const storageKey = `liked_${articleId}`;
 
-  // 初期化：いいね数取得 + localStorage チェック
-  useEffect(() => {
-    // localStorage からいいね済み状態を取得
-    const liked = localStorage.getItem(storageKey);
-    if (liked === 'true') {
-      setHasLiked(true);
-    }
+	// 初期化：いいね数取得 + localStorage チェック
+	useEffect(() => {
+		// localStorage からいいね済み状態を取得
+		const liked = localStorage.getItem(storageKey);
+		if (liked === 'true') {
+			setHasLiked(true);
+		}
 
-    // いいね数を取得
-    fetchLikeCount();
-  }, [articleId]);
+		// いいね数を取得
+		fetchLikeCount();
+	}, [articleId]);
 
-  const fetchLikeCount = async () => {
-    try {
-      const response = await fetch(`/api/likes/${articleId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setLikeCount(data.likeCount);
-      }
-    } catch (error) {
-      console.error('Failed to fetch like count:', error);
-    }
-  };
+	const fetchLikeCount = async () => {
+		try {
+			const response = await fetch(`/api/likes/${articleId}`);
+			if (response.ok) {
+				const data = await response.json();
+				setLikeCount(data.likeCount);
+			}
+		} catch (error) {
+			console.error('Failed to fetch like count:', error);
+		}
+	};
 
-  const handleLike = async () => {
-    if (isLoading) return;
+	const handleLike = async () => {
+		if (isLoading) return;
 
-    setIsLoading(true);
-    setIsAnimating(true);
+		setIsLoading(true);
+		setIsAnimating(true);
 
-    try {
-      const response = await fetch(`/api/likes/${articleId}`, {
-        method: 'POST',
-      });
+		try {
+			const response = await fetch(`/api/likes/${articleId}`, {
+				method: 'POST',
+			});
 
-      if (response.ok) {
-        const data = await response.json();
-        setLikeCount(data.likeCount);
-        setHasLiked(true);
-        localStorage.setItem(storageKey, 'true');
-      }
-    } catch (error) {
-      console.error('Failed to add like:', error);
-    } finally {
-      setIsLoading(false);
-      // アニメーション終了
-      setTimeout(() => setIsAnimating(false), 300);
-    }
-  };
+			if (response.ok) {
+				const data = await response.json();
+				setLikeCount(data.likeCount);
+				setHasLiked(true);
+				localStorage.setItem(storageKey, 'true');
+			}
+		} catch (error) {
+			console.error('Failed to add like:', error);
+		} finally {
+			setIsLoading(false);
+			// アニメーション終了
+			setTimeout(() => setIsAnimating(false), 300);
+		}
+	};
 
-  return (
-    <button
-      onClick={handleLike}
-      disabled={isLoading}
-      className={`like-button ${hasLiked ? 'liked' : ''} ${isAnimating ? 'animating' : ''}`}
-      aria-label={hasLiked ? 'いいね済み' : 'いいねする'}
-    >
-      <span className="heart-icon">
-        {hasLiked ? '❤️' : '🤍'}
-      </span>
-      <span className="like-count">{likeCount}</span>
+	return (
+		<button
+			onClick={handleLike}
+			disabled={isLoading}
+			className={`like-button ${hasLiked ? 'liked' : ''} ${isAnimating ? 'animating' : ''}`}
+			aria-label={hasLiked ? 'いいね済み' : 'いいねする'}
+		>
+			<span className="heart-icon">{hasLiked ? '❤️' : '🤍'}</span>
+			<span className="like-count">{likeCount}</span>
 
-      <style>{`
+			<style>{`
         .like-button {
           display: inline-flex;
           align-items: center;
@@ -146,6 +144,6 @@ export default function LikeButton({ articleId }: LikeButtonProps) {
           background: rgba(239, 68, 68, 0.15);
         }
       `}</style>
-    </button>
-  );
+		</button>
+	);
 }

@@ -59,14 +59,14 @@
 
 ## 命名規則
 
-| 対象 | 規則 | 例 |
-|------|------|-----|
-| ファイル（コンポーネント） | PascalCase | `LikeButton.tsx` |
-| ファイル（ページ） | kebab-case | `blog/index.astro` |
-| 変数・関数 | camelCase | `handleLike`, `likeCount` |
-| 定数 | UPPER_SNAKE_CASE | `SITE_TITLE` |
-| CSS クラス | kebab-case | `.like-button` |
-| CSS 変数 | kebab-case with prefix | `--color-accent` |
+| 対象                       | 規則                   | 例                        |
+| -------------------------- | ---------------------- | ------------------------- |
+| ファイル（コンポーネント） | PascalCase             | `LikeButton.tsx`          |
+| ファイル（ページ）         | kebab-case             | `blog/index.astro`        |
+| 変数・関数                 | camelCase              | `handleLike`, `likeCount` |
+| 定数                       | UPPER_SNAKE_CASE       | `SITE_TITLE`              |
+| CSS クラス                 | kebab-case             | `.like-button`            |
+| CSS 変数                   | kebab-case with prefix | `--color-accent`          |
 
 ---
 
