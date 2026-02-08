@@ -99,23 +99,13 @@ export const DELETE: APIRoute = async ({ params }) => {
 	}
 
 	try {
-		// いいねを1つ削除（複数ある場合は1つだけ削除）
-		const { data: likeToDelete } = await supabase
-			.from('likes')
-			.select('id')
-			.eq('article_id', articleId)
-			.limit(1)
-			.single();
+		// アトミックに1件削除（RPC関数を使用してレースコンディション対策）
+		const { error: deleteError } = await supabase.rpc('delete_one_like', {
+			target_article_id: articleId,
+		});
 
-		if (likeToDelete) {
-			const { error: deleteError } = await supabase
-				.from('likes')
-				.delete()
-				.eq('id', likeToDelete.id);
-
-			if (deleteError) {
-				throw deleteError;
-			}
+		if (deleteError) {
+			throw deleteError;
 		}
 
 		// 最新のいいね数を取得
@@ -140,4 +130,3 @@ export const DELETE: APIRoute = async ({ params }) => {
 		});
 	}
 };
-
