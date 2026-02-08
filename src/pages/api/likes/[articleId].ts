@@ -1,8 +1,9 @@
 /**
  * API Route: /api/likes/[articleId]
  *
- * GET  - 記事のいいね数を取得
- * POST - 記事にいいねを追加
+ * GET    - 記事のいいね数を取得
+ * POST   - 記事にいいねを追加
+ * DELETE - 記事のいいねを取り消し
  */
 import type { APIRoute } from 'astro';
 import { supabase } from '../../../lib/supabase';
@@ -85,3 +86,58 @@ export const POST: APIRoute = async ({ params }) => {
 		});
 	}
 };
+
+// DELETE: いいねを取り消し
+export const DELETE: APIRoute = async ({ params }) => {
+	const { articleId } = params;
+
+	if (!articleId) {
+		return new Response(JSON.stringify({ error: 'Article ID is required' }), {
+			status: 400,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	}
+
+	try {
+		// いいねを1つ削除（複数ある場合は1つだけ削除）
+		const { data: likeToDelete } = await supabase
+			.from('likes')
+			.select('id')
+			.eq('article_id', articleId)
+			.limit(1)
+			.single();
+
+		if (likeToDelete) {
+			const { error: deleteError } = await supabase
+				.from('likes')
+				.delete()
+				.eq('id', likeToDelete.id);
+
+			if (deleteError) {
+				throw deleteError;
+			}
+		}
+
+		// 最新のいいね数を取得
+		const { count, error: countError } = await supabase
+			.from('likes')
+			.select('*', { count: 'exact', head: true })
+			.eq('article_id', articleId);
+
+		if (countError) {
+			throw countError;
+		}
+
+		return new Response(JSON.stringify({ success: true, likeCount: count ?? 0 }), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	} catch (error) {
+		console.error('Error removing like:', error);
+		return new Response(JSON.stringify({ error: 'Failed to remove like' }), {
+			status: 500,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	}
+};
+

@@ -53,18 +53,26 @@ export default function LikeButton({ articleId }: LikeButtonProps) {
 		setIsAnimating(true);
 
 		try {
-			const response = await fetch(`/api/likes/${articleId}`, {
-				method: 'POST',
-			});
+			// いいね済みなら取り消し、未いいねなら追加
+			const method = hasLiked ? 'DELETE' : 'POST';
+			const response = await fetch(`/api/likes/${articleId}`, { method });
 
 			if (response.ok) {
 				const data = await response.json();
 				setLikeCount(data.likeCount);
-				setHasLiked(true);
-				localStorage.setItem(storageKey, 'true');
+
+				if (hasLiked) {
+					// 取り消し
+					setHasLiked(false);
+					localStorage.removeItem(storageKey);
+				} else {
+					// 追加
+					setHasLiked(true);
+					localStorage.setItem(storageKey, 'true');
+				}
 			}
 		} catch (error) {
-			console.error('Failed to add like:', error);
+			console.error('Failed to toggle like:', error);
 		} finally {
 			setIsLoading(false);
 			// アニメーション終了

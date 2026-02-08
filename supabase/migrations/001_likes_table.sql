@@ -24,3 +24,10 @@ CREATE POLICY "Allow anonymous selects" ON likes
   FOR SELECT
   TO anon
   USING (true);
+
+-- 全員が DELETE 可能（認証不要）
+CREATE POLICY "Allow anonymous deletes" ON likes
+  FOR DELETE
+  TO anon
+  USING (true);
+
