@@ -24,3 +24,4 @@ CREATE POLICY "Allow anonymous selects" ON likes
   FOR SELECT
   TO anon
   USING (true);
+

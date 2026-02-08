@@ -1,8 +1,9 @@
 /**
  * API Route: /api/likes/[articleId]
  *
- * GET  - 記事のいいね数を取得
- * POST - 記事にいいねを追加
+ * GET    - 記事のいいね数を取得
+ * POST   - 記事にいいねを追加
+ * DELETE - 記事のいいねを取り消し
  */
 import type { APIRoute } from 'astro';
 import { supabase } from '../../../lib/supabase';
@@ -80,6 +81,50 @@ export const POST: APIRoute = async ({ params }) => {
 	} catch (error) {
 		console.error('Error adding like:', error);
 		return new Response(JSON.stringify({ error: 'Failed to add like' }), {
+			status: 500,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	}
+};
+
+// DELETE: いいねを取り消し
+export const DELETE: APIRoute = async ({ params }) => {
+	const { articleId } = params;
+
+	if (!articleId) {
+		return new Response(JSON.stringify({ error: 'Article ID is required' }), {
+			status: 400,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	}
+
+	try {
+		// アトミックに1件削除（RPC関数を使用してレースコンディション対策）
+		const { error: deleteError } = await supabase.rpc('delete_one_like', {
+			target_article_id: articleId,
+		});
+
+		if (deleteError) {
+			throw deleteError;
+		}
+
+		// 最新のいいね数を取得
+		const { count, error: countError } = await supabase
+			.from('likes')
+			.select('*', { count: 'exact', head: true })
+			.eq('article_id', articleId);
+
+		if (countError) {
+			throw countError;
+		}
+
+		return new Response(JSON.stringify({ success: true, likeCount: count ?? 0 }), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json' },
+		});
+	} catch (error) {
+		console.error('Error removing like:', error);
+		return new Response(JSON.stringify({ error: 'Failed to remove like' }), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
 		});
