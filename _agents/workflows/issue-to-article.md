@@ -1,0 +1,53 @@
+---
+description: GitHubのイシューからブログ記事の構成案（Markdown）を作成する
+---
+
+このワークフローは、ユーザーが特定のGitHub Issueから記事の構成案を作ってほしいと依頼した際に実行されます。（例: `/issue-to-article <IssueのURL>`）
+
+// turbo-all
+
+1. **ブランチを作成する**: 記事作成用のブランチを `main` から作成します。ブランチ名は `article/issue-<Issue番号>` の形式にしてください（例: `article/issue-11`）。
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b article/issue-<Issue番号>
+   ```
+2. `read_url_content` ツールを使用して、ユーザーから提供されたGitHub IssueのURLからテキストとコメントの内容を読み取ります。
+3. 読み取ったIssueの背景、議論の経緯、課題、解決策などの情報を分析します。
+4. 以下のフォーマットに従って、技術ブログ記事の「案（切り口）」と「構成（目次）」を作成します。
+5. `src/content/blog/` ディレクトリ配下に、Issueの内容に基づく適切なファイル名（例: `issue-123-python-set.md`）の新しいMarkdownファイルを作成します。ファイルの先頭にはAstroで必要なFrontmatterを含めてください。
+
+【Markdownファイルに書き込む内容のテンプレート】
+
+```markdown
+---
+title: '仮のタイトル'
+description: '記事の概要'
+pubDate: 'YYYY-MM-DD'
+---
+
+## 記事の切り口案
+
+1. [案1のタイトル] - なぜこの切り口が良いかの理由
+2. [案2のタイトル] - なぜこの切り口が良いかの理由
+3. [案3のタイトル] - なぜこの切り口が良いかの理由
+
+## おすすめの構成案（上記のうち最も良い案に基づく）
+
+- **仮タイトル**: [タイトル]
+- **想定読者**: [想定読者]
+- **構成**:
+  - はじめに (Issueの背景や前提条件)
+  - 発生した課題・問題点
+  - 解決策・アプローチの過程
+  - 得られた知見・まとめ
+```
+
+6. 作成したMarkdownファイルをコミットしてプッシュし、**Pull Request**を作成します。
+   ```bash
+   git add src/content/blog/issue-<Issue番号>-*.md
+   git commit -m "docs: Issue #<Issue番号> の記事構成案を作成"
+   git push origin article/issue-<Issue番号>
+   gh pr create --title "記事作成: Issue #<Issue番号>" --body "Issue #<Issue番号> の記事構成案です。" --base main
+   ```
+7. 作成したMarkdownファイルのパスとPRのURLをユーザーに報告し、内容の確認を促します。
