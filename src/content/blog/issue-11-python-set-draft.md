@@ -2,6 +2,7 @@
 title: 'Pythonのset（集合）完全理解：なぜO(1)で検索できるのか？内部構造からlistとの違いまで'
 description: 'Pythonのset型について、配列(list)との違い、O(1)の検索が可能な理由、内部で行われているハッシュテーブルの仕組みを解説します'
 pubDate: '2026-02-22'
+tags: ['Python', 'データ構造', 'LeetCode']
 ---
 
 ## はじめに — setとは何か？
