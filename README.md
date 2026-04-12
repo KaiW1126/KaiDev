@@ -1,5 +1,7 @@
 # KaiDev Blog
 
+🔗 **https://kai-dev-ziq8-neon.vercel.app/**
+
 Astro v5 + React で構築した個人技術ブログです。
 
 ## 特徴
