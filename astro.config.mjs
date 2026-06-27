@@ -11,7 +11,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://example.com',
+	site: 'https://kai-dev-ziq8-neon.vercel.app',
 	// hybrid モード: 基本は静的生成、特定ページのみ SSR
 	output: 'server',
 	adapter: vercel({
