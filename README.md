@@ -36,6 +36,10 @@ src/
 supabase/
 └── migrations/          # DBマイグレーション
 
+articles/                # Zennの記事（.md）
+books/                   # Zennの本
+images/                  # Zennの記事・本で使う画像
+
 .github/
 └── workflows/           # CI/CD設定
 ```
@@ -55,6 +59,8 @@ supabase/
 | `npm run format`       | Prettierでフォーマット             |
 | `npm run format:check` | フォーマットチェック               |
 | `npm run check`        | Astro型チェック                    |
+| `npm run zenn:new`     | Zennの下書き記事を新規作成         |
+| `npm run zenn:preview` | Zennの記事をlocalhost:8000で確認   |
 
 ---
 
@@ -117,6 +123,21 @@ heroImage: '/blog-placeholder.jpg'
 
 記事本文...
 ```
+
+### Zenn記事の追加
+
+Zennの記事はルートの `articles/` で管理します。
+
+```bash
+# articles/ に下書きを作成
+npm run zenn:new
+
+# ブラウザでプレビュー
+npm run zenn:preview
+```
+
+記事のFront Matterにある `published` は、執筆中は `false` にしてください。
+ZennとこのGitHubリポジトリを連携した後、`published: true` の記事を連携ブランチへpushすると公開されます。
 
 ---
 
