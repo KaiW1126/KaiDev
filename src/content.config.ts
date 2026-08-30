@@ -19,4 +19,27 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const zenn = defineCollection({
+	// Zenn CLIと共有しているルートのarticlesディレクトリを読み込む
+	loader: glob({ base: './articles', pattern: '**/*.md' }),
+	schema: z
+		.object({
+			title: z.string(),
+			emoji: z.string(),
+			type: z.enum(['tech', 'idea']),
+			topics: z.array(z.string()),
+			published: z.boolean(),
+			published_at: z.coerce.date().optional(),
+		})
+		.superRefine((article, context) => {
+			if (article.published && !article.published_at) {
+				context.addIssue({
+					code: 'custom',
+					path: ['published_at'],
+					message: '公開するZenn記事にはpublished_atを設定してください',
+				});
+			}
+		}),
+});
+
+export const collections = { blog, zenn };

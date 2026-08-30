@@ -4,6 +4,7 @@ emoji: '🧩'
 type: 'tech'
 topics: ['go', 'goroutine', 'context', '初心者']
 published: true
+published_at: 2026-08-30
 ---
 
 Goは文法がシンプルで、比較的学びやすい言語だと聞いていました。

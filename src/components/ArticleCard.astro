@@ -18,13 +18,20 @@ interface Props {
 	pubDate: Date;
 	href: string;
 	tags?: string[];
+	source?: 'blog' | 'zenn';
 }
 
-const { title, description, pubDate, href, tags = [] } = Astro.props;
+const { title, description, pubDate, href, tags = [], source = 'blog' } = Astro.props;
+const isExternal = source === 'zenn';
 ---
 
 <article class="article-card">
-	<a href={href} class="card-link">
+	<a
+		href={href}
+		class="card-link"
+		target={isExternal ? '_blank' : undefined}
+		rel={isExternal ? 'noopener noreferrer' : undefined}
+	>
 		<div class="card-content">
 			<!-- タグ表示（最大3つ） -->
 			{
