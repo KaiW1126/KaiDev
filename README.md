@@ -137,7 +137,8 @@ npm run zenn:preview
 ```
 
 記事のFront Matterにある `published` は、執筆中は `false` にしてください。
-ZennとこのGitHubリポジトリを連携した後、`published: true` の記事を連携ブランチへpushすると公開されます。
+公開時は `published: true` と `published_at: YYYY-MM-DD` を設定して、連携ブランチへpushします。
+公開済みの記事はトップページとブログ一覧にも表示され、カードを押すとZennの記事へ移動できます。
 
 ---
 
