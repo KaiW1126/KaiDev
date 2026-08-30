@@ -3,7 +3,7 @@ title: 'Goを学び始めて、構文よりも「裏側」で詰まった'
 emoji: '🧩'
 type: 'tech'
 topics: ['go', 'goroutine', 'context', '初心者']
-published: false
+published: true
 ---
 
 Goは文法がシンプルで、比較的学びやすい言語だと聞いていました。
