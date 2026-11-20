@@ -6,23 +6,47 @@
  * DELETE - 記事のいいねを取り消し
  */
 import type { APIRoute } from 'astro';
+import { getEntry } from 'astro:content';
 import { supabase } from '../../../lib/supabase';
 
 // SSR モードを有効化（この API は動的に処理する必要がある）
 export const prerender = false;
 
-// GET: いいね数を取得
-export const GET: APIRoute = async ({ params }) => {
-	const { articleId } = params;
+const MAX_ARTICLE_ID_LENGTH = 100;
+const ARTICLE_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-	if (!articleId) {
-		return new Response(JSON.stringify({ error: 'Article ID is required' }), {
-			status: 400,
-			headers: { 'Content-Type': 'application/json' },
-		});
+function errorResponse(message: string, status: number): Response {
+	return new Response(JSON.stringify({ error: message }), {
+		status,
+		headers: { 'Content-Type': 'application/json' },
+	});
+}
+
+async function validateArticleId(
+	articleId: string | undefined
+): Promise<{ articleId: string } | Response> {
+	if (
+		!articleId ||
+		articleId.length > MAX_ARTICLE_ID_LENGTH ||
+		!ARTICLE_ID_PATTERN.test(articleId)
+	) {
+		return errorResponse('Invalid article ID', 400);
 	}
 
+	if (!(await getEntry('blog', articleId))) {
+		return errorResponse('Article not found', 404);
+	}
+
+	return { articleId };
+}
+
+// GET: いいね数を取得
+export const GET: APIRoute = async ({ params }) => {
 	try {
+		const validation = await validateArticleId(params.articleId);
+		if (validation instanceof Response) return validation;
+		const { articleId } = validation;
+
 		const { count, error } = await supabase
 			.from('likes')
 			.select('*', { count: 'exact', head: true })
@@ -36,8 +60,8 @@ export const GET: APIRoute = async ({ params }) => {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
 		});
-	} catch (error) {
-		console.error('Error fetching likes:', error);
+	} catch {
+		console.error('Error fetching likes');
 		return new Response(JSON.stringify({ error: 'Failed to fetch likes' }), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
@@ -47,16 +71,11 @@ export const GET: APIRoute = async ({ params }) => {
 
 // POST: いいねを追加
 export const POST: APIRoute = async ({ params }) => {
-	const { articleId } = params;
-
-	if (!articleId) {
-		return new Response(JSON.stringify({ error: 'Article ID is required' }), {
-			status: 400,
-			headers: { 'Content-Type': 'application/json' },
-		});
-	}
-
 	try {
+		const validation = await validateArticleId(params.articleId);
+		if (validation instanceof Response) return validation;
+		const { articleId } = validation;
+
 		// いいねを追加
 		const { error: insertError } = await supabase.from('likes').insert({ article_id: articleId });
 
@@ -78,8 +97,8 @@ export const POST: APIRoute = async ({ params }) => {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
 		});
-	} catch (error) {
-		console.error('Error adding like:', error);
+	} catch {
+		console.error('Error adding like');
 		return new Response(JSON.stringify({ error: 'Failed to add like' }), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
@@ -89,16 +108,11 @@ export const POST: APIRoute = async ({ params }) => {
 
 // DELETE: いいねを取り消し
 export const DELETE: APIRoute = async ({ params }) => {
-	const { articleId } = params;
-
-	if (!articleId) {
-		return new Response(JSON.stringify({ error: 'Article ID is required' }), {
-			status: 400,
-			headers: { 'Content-Type': 'application/json' },
-		});
-	}
-
 	try {
+		const validation = await validateArticleId(params.articleId);
+		if (validation instanceof Response) return validation;
+		const { articleId } = validation;
+
 		// アトミックに1件削除（RPC関数を使用してレースコンディション対策）
 		const { error: deleteError } = await supabase.rpc('delete_one_like', {
 			target_article_id: articleId,
@@ -122,8 +136,8 @@ export const DELETE: APIRoute = async ({ params }) => {
 			status: 200,
 			headers: { 'Content-Type': 'application/json' },
 		});
-	} catch (error) {
-		console.error('Error removing like:', error);
+	} catch {
+		console.error('Error removing like');
 		return new Response(JSON.stringify({ error: 'Failed to remove like' }), {
 			status: 500,
 			headers: { 'Content-Type': 'application/json' },
